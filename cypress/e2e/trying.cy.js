@@ -1,3 +1,5 @@
+
+
 describe('Verificar que el placeholder sea correcto', () => {
   it('place holder es correcto', () => {
     cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
@@ -30,7 +32,7 @@ describe('agregar al carrito ', () => {
     cy.get('.products').find('.product:visible').should('have.length', 4)
     cy.get('.products').find('.product').eq(1).contains('ADD TO CART').click()
   })
-  it.only('Zanahorias Iterando', () => {
+  it('Zanahorias Iterando', () => {
     cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
     cy.get('.search-keyword').type('ca')
     cy.get('.products').find('.product').each(($el, index, $list) => {
@@ -39,7 +41,46 @@ describe('agregar al carrito ', () => {
         cy.wrap($el).find('button').contains('ADD TO CART').click()
       }
     })
+  })
+})
 
+describe('trabajando con el asincronismo manualmente', () => {
+  it('Nombre del logo', () => {
+    cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
+    cy.get('.brand').then(function (logoElement) {
+      cy.log(logoElement.text())
+    })
+  })
+})
+//bien lo que se hace aca es que se busca el elemento .brand,
+// luego el .then lo que hace es, bien lo encontre, que hago ahora?
+// lo que encuentre lo guarda en logoElement, luego imprimimos lo que encontro
 
+describe('usando alias para no repetir', () => {
+  it.only('productos', () => {
+    cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
+    cy.get('.products').as('productos')
+    cy.get('@productos').find('.product').should('have.length', 30)
+
+  })
+})
+
+describe('User journey', () => {
+  it.only('Comprar dos productos', () => {
+    cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
+    cy.get('.search-keyword').type('ca')
+    cy.get('.products').find('.product').each(($el,index,$list)=>{
+      const textVeg = $el.find('h4.product-name').text()
+      if (textVeg.includes('Carrot')){
+        cy.wrap($el).find('button').contains('ADD TO CART').click()
+      }else if(textVeg.includes('Capsicum')){
+        cy.wrap($el).find('button').contains('ADD TO CART').click()
+      }
+    })
+    cy.get('.cart-icon').click()
+    cy.get('button').contains('PROCEED TO CHECKOUT').click()
+    cy.get('button').contains('Place Order').click()
+    cy.get('.chkAgree').click()
+    cy.get('button').contains('Proceed').click()
   })
 })
