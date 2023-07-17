@@ -37,10 +37,23 @@ describe("Manejo de tablas", () => {
   })
 })
 describe("mose hover", () => {
-  it.only("Se maneja con jquery functions", () => {
+  it("Se maneja con jquery functions", () => {
     cy.visit('https://rahulshettyacademy.com/AutomationPractice/')
     cy.get("div.mouse-hover-content").invoke("show")//oficia de hover
     cy.contains("Top").click()
     cy.url().should("include", "top")
   })
-}) 
+})
+describe("manejo de nuevas ventanas", () => {
+    it.only("Como conseguir la url e interactuar con la paginado", () => {
+    cy.visit('https://rahulshettyacademy.com/AutomationPractice/')
+    cy.get("#opentab").then(function (el){//para resolver la promise usamos then que es para cuando funciona y lo guardamos en el
+
+      const url =el.prop('href')//prop es una funcion de jquery lo que hace es obtener el atributo que se le pasa por parametro
+      cy.visit(url)
+      cy.origin(url,()=>{
+        cy.url().should("include",'qaclickacademy')
+      })
+    })
+  })
+})
