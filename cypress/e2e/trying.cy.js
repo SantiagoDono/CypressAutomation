@@ -57,7 +57,7 @@ describe('trabajando con el asincronismo manualmente', () => {
 // lo que encuentre lo guarda en logoElement, luego imprimimos lo que encontro
 
 describe('usando alias para no repetir', () => {
-  it.only('productos', () => {
+  it('productos', () => {
     cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
     cy.get('.products').as('productos')
     cy.get('@productos').find('.product').should('have.length', 30)
@@ -66,7 +66,7 @@ describe('usando alias para no repetir', () => {
 })
 
 describe('User journey', () => {
-  it.only('Comprar dos productos', () => {
+  it('Comprar dos productos', () => {
     cy.visit('https://rahulshettyacademy.com/seleniumPractise/#/')
     cy.get('.search-keyword').type('ca')
     cy.get('.products').find('.product').each(($el,index,$list)=>{
